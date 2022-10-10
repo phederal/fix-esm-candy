@@ -1,0 +1,19 @@
+{
+  "name": "fix-esm-candy",
+  "description": "Fixes ERR_REQUIRE_ESM and import.meta.url errors so that you can require ESM modules from CommonJS",
+  "version": "2.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/phederal/fix-esm-candy",
+  "author": "Roman Kurushin <it@qork.ru> (https://qork.ru/)",
+  "license": "WTFPL OR CC0-1.0",
+  "devDependencies": {
+    "clear-module": "^4.1.1",
+    "p-defer": "^4.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/plugin-proposal-export-namespace-from": "^7.14.5",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.14.5"
+  }
+}
