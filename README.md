@@ -12,6 +12,17 @@ require() of ES modules is not supported.
 require() of /home/user/projects/your-project/node_modules/some-module/lib/index.js from /home/user/projects/your-project/test-esm.js is an ES module file as it is a .js file whose nearest parent package.json contains "type": "module" which defines all .js files in that package scope as ES modules.
 Instead rename index.js to end in .cjs, change the requiring code to use import(), or remove "type": "module" from /home/user/projects/your-project/node_modules/some-module/package.json.
 ```
+or this:
+
+```
+const _require = (0, _nodeModule.createRequire)(import.meta.url);
+                                                       ^^^^
+
+SyntaxError: Cannot use 'import.meta' outside a module
+    at Object.compileFunction (node:vm:352:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1033:15)
+    at Module._compile (node:internal/modules/cjs/loader:1069:27)
+```
 
 __This module fixes that.__ [Some people](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) will tell you that you need to switch to ESM to make it work, but unfortunately [ES Modules are actually pretty terrible](https://gist.github.com/joepie91/bca2fda868c1e8b2c2caf76af7dfcad3), as they do not support things like parametric modules, and they don't actually provide the benefits that many people claim they do. The resulting ecosystem split has unnecessarily caused a lot of misery for everybody.
 
@@ -33,7 +44,7 @@ There are two main ways to use this library; either by using the custom `require
 
 ### Custom require
 
-First off, there's the 'custom require' approach. __This is the approach you should use when using `fix-esm` in a library you intend to publish!__ It's bad practice to publish libraries that modify things globally, and the 'custom require' approach ensures that you don't override anything global.
+First off, there's the 'custom require' approach. __This is the approach you should use when using `fix-esm-candy` in a library you intend to publish!__ It's bad practice to publish libraries that modify things globally, and the 'custom require' approach ensures that you don't override anything global.
 
 Simply change your `require` like this:
 
@@ -61,20 +72,16 @@ const someModule = require("some-module");
 
 That's it! Now every `require` throughout your application will work, even with ESM modules.
 
-## Something broken?
-
-Please [file a bug](https://git.cryto.net/joepie91/fix-esm/issues)! This is an early release, and it's inherently hacky to some degree, so it's quite possible that it doesn't work under all circumstances yet.
-
-When filing a bug, please make sure to include enough information to reproduce the issue - ideally, at least your Node version, operating system, and the contents of the file that is doing the `require`.
-
-If it's more practical for you, you can also e-mail me with bug reports at [admin@cryto.net](mailto:admin@cryto.net).
-
 ## Changelog
 
-### 1.0.1 (August 21, 2021)
+### 2.0.0 (October 10, 2022)
+
+- Add support import.meta.url
+
+### 1.0.1 (August 21, 2021) ([original](https://git.cryto.net/joepie91/fix-esm))
 
 - Fixed e-mail link in README.
 
-### 1.0.0 (August 21, 2021)
+### 1.0.0 (August 21, 2021) ([original](https://git.cryto.net/joepie91/fix-esm))
 
 Initial release.
